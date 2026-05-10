@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #F5F0E4;
+  --paper-light: #FAF6EC;
+  --ink: #1C1917;
+  --ink-soft: #3A3733;
+  --forest: #1F3D2E;
+  --forest-light: #2D5A44;
+  --terracotta: #B85A38;
+  --sage: #8FA89A;
+  --sage-light: #C4D2C9;
+  --stone: #78716C;
+  --stone-light: #D6CFC2;
+  --gold: #B6843A;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(28, 25, 23, 0.025) 1px, transparent 1px),
+    var(--paper);
+  background-size: 100% 28px;
+  font-family: var(--font-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.paper-panel {
+  border: 1px solid rgba(120, 113, 108, 0.28);
+  background: rgba(250, 246, 236, 0.82);
+  box-shadow: 0 18px 50px rgba(31, 61, 46, 0.08);
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: var(--stone);
+}
+
+.ink-link {
+  text-decoration: underline;
+  text-decoration-color: rgba(184, 90, 56, 0.55);
+  text-underline-offset: 4px;
+}
+

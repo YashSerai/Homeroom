@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*
+!.env.example
+.convex
+tsconfig.tsbuildinfo
+*.log
+*.err
+start-homeroom-dev.ps1
