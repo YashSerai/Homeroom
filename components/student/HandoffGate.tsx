@@ -15,12 +15,12 @@ export function HandoffGate() {
           <Badge>{state.handoffRevealed ? "handoff unlocked" : "fresh-start gate"}</Badge>
           <h2 className="mt-3 font-display text-3xl text-forest">Fresh-start briefing</h2>
           <p className="mt-2 max-w-3xl text-ink-soft">
-            New teachers begin with grades, strengths, learning style, and things to observe. Growth concerns unlock only after they add their own first observation.
+            This is not a dossier. It is a fresh-start briefing built from teacher-approved observations. New teachers begin with what has helped Maya, what to observe next, and what not to over-assume.
           </p>
         </div>
         <Button variant={state.handoffRevealed ? "secondary" : "default"} onClick={revealHandoff}>
           {state.handoffRevealed ? <UnlockKeyhole className="h-4 w-4" /> : <LockKeyhole className="h-4 w-4" />}
-          Demo reveal
+          Reveal handoff
         </Button>
       </div>
     </Card>

@@ -12,10 +12,13 @@ export default function HomePage() {
         transition={{ duration: 0.45 }}
         className="max-w-4xl"
       >
-        <p className="mono-label mb-5">Demo build · Single student, Maya Chen</p>
+        <p className="mono-label mb-5">Single student record · Maya Chen</p>
         <h1 className="font-display text-7xl leading-[0.96] text-forest md:text-8xl">Homeroom</h1>
         <p className="mt-7 max-w-2xl font-display text-4xl leading-tight text-ink">Student growth, carried forward.</p>
         <p className="mt-4 max-w-2xl text-xl leading-8 text-ink-soft">Grades show performance. Homeroom shows growth.</p>
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-ink-soft">
+          A calm learner record for carrying forward teacher-approved observations, support strategies, and areas to explore without reducing students to labels.
+        </p>
         <div className="mt-10">
           <RoleSwitcher />
         </div>

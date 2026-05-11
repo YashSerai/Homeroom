@@ -7,6 +7,8 @@ type BackboardMessageResponse = {
   content?: string;
   thread_id?: string;
   model?: string;
+  model_name?: string;
+  model_provider?: string;
   error?: string;
 };
 
@@ -15,6 +17,7 @@ async function sendBackboardMessage(input: {
   threadId?: string;
   systemPrompt?: string;
   memory?: "Auto" | "Readonly" | "off";
+  jsonOutput?: boolean;
 }) {
   const apiKey = process.env.BACKBOARD_API_KEY;
   if (!apiKey) return null;
@@ -29,7 +32,10 @@ async function sendBackboardMessage(input: {
       thread_id: input.threadId,
       content: input.systemPrompt ? `${input.systemPrompt}\n\n${input.content}` : input.content,
       stream: false,
-      memory: input.memory ?? "Readonly"
+      memory: input.memory ?? "Readonly",
+      llm_provider: process.env.BACKBOARD_LLM_PROVIDER ?? "openai",
+      model_name: process.env.BACKBOARD_MODEL_NAME ?? "gpt-4o-mini",
+      json_output: input.jsonOutput ?? false
     })
   });
 
@@ -49,6 +55,7 @@ export async function askBackboardForClarification(input: {
   studentName: string;
   transcript: string[];
   lastMessage: string;
+  studentContext?: string;
 }) {
   if (!process.env.BACKBOARD_API_KEY) {
     return {
@@ -62,6 +69,9 @@ export async function askBackboardForClarification(input: {
       systemPrompt: CLARIFICATION_PROMPT,
       memory: "Readonly",
       content: `Student: ${input.studentName}
+Known student context:
+${input.studentContext ?? "No additional context provided."}
+
 Conversation so far:
 ${input.transcript.join("\n")}
 Teacher's latest message: ${input.lastMessage}
@@ -72,7 +82,7 @@ Output one sentence question OR READY.`
     return {
       text: result?.content?.trim() || clarifyObservation(input.transcript, input.lastMessage),
       provider: "backboard",
-      model: result?.model ?? "backboard-router"
+      model: result?.model_name ?? result?.model ?? process.env.BACKBOARD_MODEL_NAME ?? "backboard-router"
     };
   } catch (error) {
     return {
@@ -83,7 +93,7 @@ Output one sentence question OR READY.`
   }
 }
 
-export async function askBackboardForExtraction(input: { fullTranscript: string }) {
+export async function askBackboardForExtraction(input: { fullTranscript: string; studentContext?: string }) {
   if (!process.env.BACKBOARD_API_KEY) {
     return {
       json: extractObservation(input.fullTranscript),
@@ -95,7 +105,11 @@ export async function askBackboardForExtraction(input: { fullTranscript: string 
     const result = await sendBackboardMessage({
       systemPrompt: EXTRACTION_PROMPT,
       memory: "Readonly",
-      content: `Source conversation:
+      jsonOutput: true,
+      content: `Known student context:
+${input.studentContext ?? "No additional context provided."}
+
+Source conversation:
 ${input.fullTranscript}
 
 Output JSON exactly:
@@ -113,7 +127,7 @@ Output JSON exactly:
     return {
       json: parsed,
       provider: "backboard",
-      model: result?.model ?? "backboard-router"
+      model: result?.model_name ?? result?.model ?? process.env.BACKBOARD_MODEL_NAME ?? "backboard-router"
     };
   } catch (error) {
     return {

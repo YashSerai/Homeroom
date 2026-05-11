@@ -73,12 +73,12 @@ export const seedMaya = mutation({
     const studentId = await ctx.db.insert("students", {
       name: "Maya Chen",
       currentGrade: 11,
-      currentYear: "2025-2026",
-      personalityType: "Reflective meaning-maker",
-      personalityBlurb: "Often processes through writing before speaking. Strong with layered arguments, prepared advocacy, and careful source analysis.",
-      interests: ["debate prep", "graphic novels", "urban photography", "K-dramas", "architecture"],
-      extracurriculars: ["School newspaper", "Model UN", "Yearbook design"],
-      recentBooks: ["Pachinko by Min Jin Lee", "The Power by Naomi Alderman", "Just Mercy by Bryan Stevenson"]
+      currentYear: "Grade 11 complete · entering Grade 12",
+      personalityType: "Reflective visual communicator",
+      personalityBlurb: "Maya tends to process before speaking and communicates best when she can prepare, draw, diagram, or structure her ideas visually.",
+      interests: ["architecture", "woodwork", "urban photography", "graphic novels", "community spaces"],
+      extracurriculars: ["Woodwork workshop", "Design boot camp", "Club volleyball", "Yearbook design"],
+      recentBooks: ["The Architecture of Happiness by Alain de Botton", "Just Mercy by Bryan Stevenson", "Pachinko by Min Jin Lee"]
     });
 
     const teacherIds: Record<string, any> = {};
@@ -93,8 +93,7 @@ export const seedMaya = mutation({
       [8, "2022-2023", "A-", "B+", "A-", "A"],
       [9, "2023-2024", "A", "B", "A-", "A-"],
       [10, "2024-2025", "A-", "B+", "A", "A"],
-      [11, "2025-2026", "A", "B+", "A", "A"],
-      [12, "2026-2027", "Pending", "Pending", "Pending", "Pending"]
+      [11, "2025-2026", "A", "B+", "A", "A"]
     ] as const) {
       await ctx.db.insert("grades", { studentId, grade, year, subject: "English", score: english });
       await ctx.db.insert("grades", { studentId, grade, year, subject: "Math", score: math });
@@ -193,10 +192,11 @@ export const seedMaya = mutation({
     }
 
     for (const [area, rationale, evidenceObservationIds, explorationSteps, icon] of [
-      ["Journalism / Opinion Writing", "Maya may enjoy exploring opinion writing because her recent essays and op-ed drafts combine evidence, ethics, and vivid opening details.", ["o12", "o15"], ["Submit one op-ed to the school newspaper.", "Interview a local organizer for a reported column.", "Build a source log for claims and counterclaims."], "Newspaper"],
-      ["Law / Mock Trial", "Maya may enjoy exploring law-related activities because prepared advocacy and source-based rebuttal have been strong settings for her.", ["o13", "o14"], ["Visit one mock trial practice.", "Draft cross-examination questions from a sample case.", "Ask a civics teacher for a courtroom role that uses prepared speaking."], "Scale"],
-      ["International Relations", "Maya may enjoy exploring international relations because Model UN work connects her interests in policy, migration data, and careful source caveats.", ["o18", "o13"], ["Lead one Model UN briefing memo.", "Compare two city housing policies across countries.", "Find a mentor conversation with a local policy researcher."], "Globe2"],
-      ["Literary Studies", "Maya may enjoy exploring literary studies because she builds layered arguments from texts and helps peers test claims with counterexamples.", ["o2", "o12", "o15"], ["Annotate one novel around justice and place.", "Facilitate a seminar opening question.", "Create a short reading list with one classic and one contemporary text."], "BookOpen"]
+      ["Architecture / Spatial Design", "Maya may enjoy exploring architecture or spatial design because multiple observations show visual reasoning, diagram-based explanation, prepared presentation, and sustained interest in built environments.", ["o8", "o10", "o13", "o14"], ["Build a small portfolio with 2-3 design sketches or models.", "Enter a youth architecture or community-space design challenge.", "Interview an architect, urban planner, or design student.", "Try a summer workshop in architecture, design, or urban planning."], "Building2"],
+      ["Design Communication", "Maya may enjoy exploring design communication because teachers have seen her use sequence, layout, and visual evidence to explain cause and effect.", ["o8", "o10", "o12"], ["Create one visual explainer for a class concept.", "Ask the design teacher for feedback on layout and audience clarity.", "Collect two examples of public-interest design that explain complex ideas."], "PenTool"],
+      ["Urban Planning / Community Spaces", "Maya may enjoy exploring community-space work because her Model UN brief connected housing policy, migration data, and source caveats.", ["o18", "o13", "o16"], ["Map one neighborhood space and note who it serves.", "Compare two city housing or transit choices.", "Find a local planning meeting or youth civic design workshop."], "Map"],
+      ["Prepared Advocacy / Public Speaking", "Maya may enjoy exploring prepared advocacy because rehearsed roles, question banks, and source-based rebuttals help her communicate clearly.", ["o7", "o13", "o14"], ["Visit one debate or mock council practice.", "Draft a short prepared statement with a visual aid.", "Practice one planned response before a class discussion."], "Mic2"],
+      ["Visual Education / Teaching Through Design", "Maya may enjoy exploring visual education because she often helps peers understand ideas by organizing evidence, diagrams, and examples.", ["o5", "o8", "o15"], ["Make a diagram-based study guide for one unit.", "Try explaining a concept with a sketch before words.", "Ask a teacher where visual explanation could support classmates."], "BookOpen"]
     ] as const) {
       await ctx.db.insert("pathwaySuggestions", { studentId, grade: 11, area, rationale, evidenceObservationIds: evidenceObservationIds.map((id) => observationIds[id]), explorationSteps: [...explorationSteps], icon });
     }
@@ -224,23 +224,30 @@ async function ensureAnalytics(ctx: any, studentId: any, observationIds: Record<
   const existingPerformance = await ctx.db.query("subjectPerformance").withIndex("by_student", (q: any) => q.eq("studentId", studentId)).first();
   if (!existingPerformance) {
     for (const [grade, year, subject, score, numericAverage, gpaPoints] of [
-      [8, "2022-2023", "English", "A-", 91, 3.7],
-      [8, "2022-2023", "Math", "B+", 88, 3.3],
-      [8, "2022-2023", "Humanities", "A-", 90, 3.7],
-      [8, "2022-2023", "Design", "A", 94, 4.0],
-      [9, "2023-2024", "English", "A", 94, 4.0],
-      [9, "2023-2024", "Math", "B", 84, 3.0],
-      [9, "2023-2024", "History", "A-", 91, 3.7],
-      [9, "2023-2024", "Design", "A-", 90, 3.7],
-      [10, "2024-2025", "English", "A-", 92, 3.7],
-      [10, "2024-2025", "Math", "B+", 87, 3.3],
-      [10, "2024-2025", "Science", "A", 94, 4.0],
-      [10, "2024-2025", "Design", "A", 96, 4.0],
-      [11, "2025-2026", "AP English", "A", 95, 4.0],
-      [11, "2025-2026", "Math", "B+", 88, 3.3],
-      [11, "2025-2026", "Civics", "A", 94, 4.0],
-      [11, "2025-2026", "Design Lab", "A", 95, 4.0],
-      [12, "2026-2027", "Grade 12", "Pending", 0, 0]
+      [8, "2022-2023", "Math", "B+", 87, 3.3],
+      [8, "2022-2023", "English", "B-", 80, 2.7],
+      [8, "2022-2023", "Science", "A", 94, 4.0],
+      [8, "2022-2023", "Social Studies", "C+", 77, 2.3],
+      [8, "2022-2023", "Art / Design", "A-", 90, 3.7],
+      [8, "2022-2023", "Physical Education", "C", 74, 2.0],
+      [9, "2023-2024", "Math", "A", 94, 4.0],
+      [9, "2023-2024", "English", "B", 84, 3.0],
+      [9, "2023-2024", "Science", "B+", 87, 3.3],
+      [9, "2023-2024", "Social Studies", "B+", 87, 3.3],
+      [9, "2023-2024", "Art / Design", "B+", 87, 3.3],
+      [9, "2023-2024", "Physical Education", "C", 74, 2.0],
+      [10, "2024-2025", "Math", "B-", 80, 2.7],
+      [10, "2024-2025", "English", "C", 74, 2.0],
+      [10, "2024-2025", "Science", "B", 84, 3.0],
+      [10, "2024-2025", "Social Studies", "A", 94, 4.0],
+      [10, "2024-2025", "Art / Design", "B+", 87, 3.3],
+      [10, "2024-2025", "Physical Education", "A", 94, 4.0],
+      [11, "2025-2026", "Math", "A", 94, 4.0],
+      [11, "2025-2026", "English", "A", 94, 4.0],
+      [11, "2025-2026", "Science", "B+", 87, 3.3],
+      [11, "2025-2026", "Social Studies", "A", 94, 4.0],
+      [11, "2025-2026", "Art / Design", "A", 94, 4.0],
+      [11, "2025-2026", "Physical Education", "B+", 87, 3.3]
     ] as const) {
       await ctx.db.insert("subjectPerformance", { studentId, grade, year, subject, score, numericAverage, gpaPoints });
     }
@@ -296,7 +303,7 @@ async function ensureAnalytics(ctx: any, studentId: any, observationIds: Record<
         extraversion,
         agreeableness,
         emotionalRange,
-        source: "Completed student Big Five/IPIP-style learner reflection",
+        source: "Completed student-owned learner reflection",
         completedAt: now - (12 - grade) * 85 * day
       });
     }

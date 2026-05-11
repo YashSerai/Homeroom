@@ -13,12 +13,12 @@ const now = new Date("2026-05-10T12:00:00-07:00").getTime();
 const day = 24 * 60 * 60 * 1000;
 
 export const dimensionLabels: Record<string, string> = {
-  writtenExpression: "Written expression",
-  preparedSpeaking: "Prepared speaking",
-  smallGroupCollab: "Small-group collaboration",
-  projectExecution: "Project execution",
-  visualReasoning: "Visual reasoning",
-  spontaneousPart: "Spontaneous participation"
+  writtenExpression: "Written Expression",
+  preparedSpeaking: "Prepared Communication",
+  smallGroupCollab: "Small-Group Leadership",
+  projectExecution: "Project Execution",
+  visualReasoning: "Visual Reasoning",
+  spontaneousPart: "Spontaneous Participation"
 };
 
 export const signalCopy: Record<string, string> = {
@@ -107,7 +107,7 @@ function note(
     rawText,
     processed: true,
     containsBannedLabel,
-    labelWarning: containsBannedLabel ? "label-only · low confidence" : undefined,
+    labelWarning: containsBannedLabel ? "raw label · not saved as trait" : undefined,
     createdAt: now - (40 - grade) * day - Number(id.replace(/\D/g, "")) * day
   };
 }
@@ -171,10 +171,10 @@ function obs(
 }
 
 export const growthMaps: GrowthMap[] = [
-  growth(8, 72, 54, 64, 58, 68, 38),
-  growth(9, 78, 67, 82, 80, 70, 36),
-  growth(10, 82, 72, 78, 84, 88, 44),
-  growth(11, 91, 86, 88, 90, 86, 50)
+  growth(8, 64, 42, 38, 51, 58, 28),
+  growth(9, 68, 48, 45, 61, 66, 31),
+  growth(10, 61, 63, 58, 74, 79, 37),
+  growth(11, 78, 76, 68, 88, 87, 49)
 ];
 
 function growth(
@@ -190,23 +190,30 @@ function growth(
 }
 
 export const subjectPerformance: SubjectPerformance[] = [
-  perf("sp-8-eng", 8, "2022-2023", "English", "A-", 91, 3.7),
-  perf("sp-8-math", 8, "2022-2023", "Math", "B+", 88, 3.3),
-  perf("sp-8-hum", 8, "2022-2023", "Humanities", "A-", 90, 3.7),
-  perf("sp-8-des", 8, "2022-2023", "Design", "A", 94, 4.0),
-  perf("sp-9-eng", 9, "2023-2024", "English", "A", 94, 4.0),
-  perf("sp-9-math", 9, "2023-2024", "Math", "B", 84, 3.0),
-  perf("sp-9-hum", 9, "2023-2024", "History", "A-", 91, 3.7),
-  perf("sp-9-des", 9, "2023-2024", "Design", "A-", 90, 3.7),
-  perf("sp-10-eng", 10, "2024-2025", "English", "A-", 92, 3.7),
-  perf("sp-10-math", 10, "2024-2025", "Math", "B+", 87, 3.3),
-  perf("sp-10-sci", 10, "2024-2025", "Science", "A", 94, 4.0),
-  perf("sp-10-des", 10, "2024-2025", "Design", "A", 96, 4.0),
-  perf("sp-11-eng", 11, "2025-2026", "AP English", "A", 95, 4.0),
-  perf("sp-11-math", 11, "2025-2026", "Math", "B+", 88, 3.3),
-  perf("sp-11-civ", 11, "2025-2026", "Civics", "A", 94, 4.0),
-  perf("sp-11-des", 11, "2025-2026", "Design Lab", "A", 95, 4.0),
-  perf("sp-12-pending", 12, "2026-2027", "Grade 12", "Pending", 0, 0)
+  perf("sp-8-math", 8, "2022-2023", "Math", "B+", 87, 3.3),
+  perf("sp-8-eng", 8, "2022-2023", "English", "B-", 80, 2.7),
+  perf("sp-8-sci", 8, "2022-2023", "Science", "A", 94, 4.0),
+  perf("sp-8-ss", 8, "2022-2023", "Social Studies", "C+", 77, 2.3),
+  perf("sp-8-art-design", 8, "2022-2023", "Art / Design", "A-", 90, 3.7),
+  perf("sp-8-pe", 8, "2022-2023", "Physical Education", "C", 74, 2.0),
+  perf("sp-9-math", 9, "2023-2024", "Math", "A", 94, 4.0),
+  perf("sp-9-eng", 9, "2023-2024", "English", "B", 84, 3.0),
+  perf("sp-9-sci", 9, "2023-2024", "Science", "B+", 87, 3.3),
+  perf("sp-9-ss", 9, "2023-2024", "Social Studies", "B+", 87, 3.3),
+  perf("sp-9-pe", 9, "2023-2024", "Physical Education", "C", 74, 2.0),
+  perf("sp-9-art-design", 9, "2023-2024", "Art / Design", "B+", 87, 3.3),
+  perf("sp-10-math", 10, "2024-2025", "Math", "B-", 80, 2.7),
+  perf("sp-10-eng", 10, "2024-2025", "English", "C", 74, 2.0),
+  perf("sp-10-sci", 10, "2024-2025", "Science", "B", 84, 3.0),
+  perf("sp-10-ss", 10, "2024-2025", "Social Studies", "A", 94, 4.0),
+  perf("sp-10-art-design", 10, "2024-2025", "Art / Design", "B+", 87, 3.3),
+  perf("sp-10-pe", 10, "2024-2025", "Physical Education", "A", 94, 4.0),
+  perf("sp-11-math", 11, "2025-2026", "Math", "A", 94, 4.0),
+  perf("sp-11-eng", 11, "2025-2026", "English", "A", 94, 4.0),
+  perf("sp-11-sci", 11, "2025-2026", "Science", "B+", 87, 3.3),
+  perf("sp-11-ss", 11, "2025-2026", "Social Studies", "A", 94, 4.0),
+  perf("sp-11-art-design", 11, "2025-2026", "Art / Design", "A", 94, 4.0),
+  perf("sp-11-pe", 11, "2025-2026", "Physical Education", "B+", 87, 3.3)
 ];
 
 function perf(id: string, grade: number, year: string, subject: string, score: string, numericAverage: number, gpaPoints: number): SubjectPerformance {
@@ -231,10 +238,10 @@ function comp(id: string, grade: number, subject: string, competency: string, sc
 }
 
 export const personalitySnapshots: PersonalitySnapshot[] = [
-  snap("ps-8", 8, 78, 70, 42, 76, 54),
-  snap("ps-9", 9, 82, 73, 45, 80, 52),
-  snap("ps-10", 10, 86, 76, 50, 82, 50),
-  snap("ps-11", 11, 91, 81, 56, 86, 48)
+  snap("ps-8", 8, 74, 68, 38, 72, 61),
+  snap("ps-9", 9, 77, 71, 36, 74, 58),
+  snap("ps-10", 10, 81, 65, 43, 70, 63),
+  snap("ps-11", 11, 84, 78, 51, 76, 55)
 ];
 
 function snap(id: string, grade: number, openness: number, conscientiousness: number, extraversion: number, agreeableness: number, emotionalRange: number): PersonalitySnapshot {
@@ -247,16 +254,17 @@ function snap(id: string, grade: number, openness: number, conscientiousness: nu
     extraversion,
     agreeableness,
     emotionalRange,
-    source: "Completed student Big Five/IPIP-style learner reflection",
+    source: "Completed student-owned learner reflection",
     completedAt: now - (12 - grade) * 85 * day
   };
 }
 
 export const pathways: PathwaySuggestion[] = [
-  path("path-1", "Journalism / Opinion Writing", "Maya may enjoy exploring opinion writing because her recent essays and op-ed drafts combine evidence, ethics, and vivid opening details.", ["o12", "o15"], ["Submit one op-ed to the school newspaper.", "Interview a local organizer for a reported column.", "Build a source log for claims and counterclaims."], "Newspaper"),
-  path("path-2", "Law / Mock Trial", "Maya may enjoy exploring law-related activities because prepared advocacy and source-based rebuttal have been strong settings for her.", ["o13", "o14"], ["Visit one mock trial practice.", "Draft cross-examination questions from a sample case.", "Ask a civics teacher for a courtroom role that uses prepared speaking."], "Scale"),
-  path("path-3", "International Relations", "Maya may enjoy exploring international relations because Model UN work connects her interests in policy, migration data, and careful source caveats.", ["o18", "o13"], ["Lead one Model UN briefing memo.", "Compare two city housing policies across countries.", "Find a mentor conversation with a local policy researcher."], "Globe2"),
-  path("path-4", "Literary Studies", "Maya may enjoy exploring literary studies because she builds layered arguments from texts and helps peers test claims with counterexamples.", ["o2", "o12", "o15"], ["Annotate one novel around justice and place.", "Facilitate a seminar opening question.", "Create a short reading list with one classic and one contemporary text."], "BookOpen")
+  path("path-1", "Architecture / Spatial Design", "Maya may enjoy exploring architecture or spatial design because multiple observations show visual reasoning, diagram-based explanation, prepared presentation, and sustained interest in built environments.", ["o8", "o10", "o13", "o14"], ["Build a small portfolio with 2-3 design sketches or models.", "Enter a youth architecture or community-space design challenge.", "Interview an architect, urban planner, or design student.", "Try a summer workshop in architecture, design, or urban planning."], "Building2"),
+  path("path-2", "Design Communication", "Maya may enjoy exploring design communication because teachers have seen her use sequence, layout, and visual evidence to explain cause and effect.", ["o8", "o10", "o12"], ["Create one visual explainer for a class concept.", "Ask the design teacher for feedback on layout and audience clarity.", "Collect two examples of public-interest design that explain complex ideas."], "PenTool"),
+  path("path-3", "Urban Planning / Community Spaces", "Maya may enjoy exploring community-space work because her Model UN brief connected housing policy, migration data, and source caveats.", ["o18", "o13", "o16"], ["Map one neighborhood space and note who it serves.", "Compare two city housing or transit choices.", "Find a local planning meeting or youth civic design workshop."], "Map"),
+  path("path-4", "Prepared Advocacy / Public Speaking", "Maya may enjoy exploring prepared advocacy because rehearsed roles, question banks, and source-based rebuttals help her communicate clearly.", ["o7", "o13", "o14"], ["Visit one debate or mock council practice.", "Draft a short prepared statement with a visual aid.", "Practice one planned response before a class discussion."], "Mic2"),
+  path("path-5", "Visual Education / Teaching Through Design", "Maya may enjoy exploring visual education because she often helps peers understand ideas by organizing evidence, diagrams, and examples.", ["o5", "o8", "o15"], ["Make a diagram-based study guide for one unit.", "Try explaining a concept with a sketch before words.", "Ask a teacher where visual explanation could support classmates."], "BookOpen")
 ];
 
 function path(id: string, area: string, rationale: string, evidenceObservationIds: string[], explorationSteps: string[], icon: string): PathwaySuggestion {
@@ -269,14 +277,14 @@ export const initialDemoState: DemoState = {
       id: "maya",
       name: "Maya Chen",
       currentGrade: 11,
-      currentYear: "2025-2026",
-      personalityType: "Reflective meaning-maker",
+      currentYear: "Grade 11 complete · entering Grade 12",
+      personalityType: "Reflective visual communicator",
       personalityBlurb:
-        "Often processes through writing before speaking. Strong with layered arguments, prepared advocacy, and careful source analysis.",
-      interests: ["debate prep", "graphic novels", "urban photography", "K-dramas", "architecture"],
-      extracurriculars: ["School newspaper", "Model UN", "Yearbook design"],
-      recentBooks: ["Pachinko by Min Jin Lee", "The Power by Naomi Alderman", "Just Mercy by Bryan Stevenson"],
-      classes: ["AP English", "Civics", "Precalculus", "Design Lab"]
+        "Maya tends to process before speaking and communicates best when she can prepare, draw, diagram, or structure her ideas visually.",
+      interests: ["architecture", "woodwork", "urban photography", "graphic novels", "community spaces"],
+      extracurriculars: ["Woodwork workshop", "Design boot camp", "Club volleyball", "Yearbook design"],
+      recentBooks: ["The Architecture of Happiness by Alain de Botton", "Just Mercy by Bryan Stevenson", "Pachinko by Min Jin Lee"],
+      classes: ["English Seminar", "Applied Math", "Urban Studies", "Design Studio", "Woodwork"]
     }
   ],
   teachers,
@@ -371,29 +379,29 @@ export const initialDemoState: DemoState = {
 export const handoffSummary = {
   strengths: [
     {
-      title: "Evidence-rich written analysis",
-      detail: "Builds layered claims using text evidence, policy context, and source caveats.",
+      title: "Visual explanation",
+      detail: "Uses diagrams, sequencing, and visual models to make complex ideas easier to follow.",
       evidenceCount: 3,
-      evidenceObservationIds: ["o2", "o12", "o18"]
+      evidenceObservationIds: ["o8", "o10", "o13"]
     },
     {
-      title: "Prepared advocacy",
+      title: "Prepared communication",
       detail: "Prepared roles help her make concise claims, rebuttals, and source questions visible.",
       evidenceCount: 3,
       evidenceObservationIds: ["o7", "o13", "o14"]
     },
     {
-      title: "Collaborative sense-making",
-      detail: "In small groups, she often uses evidence questions to sharpen the group's thinking.",
+      title: "Project/design thinking",
+      detail: "Sustains project work by organizing sources, clarifying audience goals, and using visual structure.",
       evidenceCount: 3,
-      evidenceObservationIds: ["o5", "o11", "o15"]
+      evidenceObservationIds: ["o6", "o10", "o13"]
     }
   ],
   learningStyle: {
-    type: "Write-before-speak processor",
-    detail: "Maya often shows stronger reasoning after she has time to draft, annotate, or hold a defined discussion role.",
-    worksWell: ["prepared discussion roles", "source question banks", "clear project checklists", "written reflection before discussion"],
-    avoid: ["cold-calling as first contact", "treating low full-class visibility as low understanding"]
+    type: "Reflective visual communicator",
+    detail: "Maya often shows stronger reasoning after she has time to draft, diagram, annotate, or hold a defined discussion role.",
+    worksWell: ["prepared discussion roles", "diagram-first explanations", "source question banks", "clear project checklists", "written reflection before discussion"],
+    avoid: ["cold-calling as first contact", "treating low full-class visibility as low understanding", "turning one setting into a fixed conclusion"]
   },
   thingsToObserve: [
     "Which opener formats help Maya share thinking earlier in class?",

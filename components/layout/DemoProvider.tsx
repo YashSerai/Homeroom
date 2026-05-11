@@ -21,18 +21,18 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   const convexData = useQuery(api.students.demoData, {});
   const approveConvexObservation = useMutation(api.observations.approveDraft);
   const updateConvexInterests = useMutation(api.students.updateInterests);
-  const [localState, setLocalState] = useState<DemoState>(initialDemoState);
+  const [localState, setLocalState] = useState<DemoState>(() => normalizeDemoState(initialDemoState));
 
   useEffect(() => {
     const saved = window.localStorage.getItem(storageKey);
-    if (saved) setLocalState(JSON.parse(saved));
+    if (saved) setLocalState(normalizeDemoState(JSON.parse(saved)));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(localState));
   }, [localState]);
 
-  const state = useMemo(() => mapConvexData(convexData) ?? localState, [convexData, localState]);
+  const state = useMemo(() => mapConvexData(convexData) ?? normalizeDemoState(localState), [convexData, localState]);
 
   const value = useMemo<DemoContextValue>(
     () => ({
@@ -60,7 +60,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
           processed: true,
           createdAt: now,
           containsBannedLabel: /quiet|shy|lazy|introverted|struggling/i.test(rawText),
-          labelWarning: /quiet|shy|lazy|introverted|struggling/i.test(rawText) ? "label-only · low confidence" : undefined
+          labelWarning: /quiet|shy|lazy|introverted|struggling/i.test(rawText) ? "raw label · not saved as trait" : undefined
         };
         const observation: Observation = {
           id: `o-demo-${now}`,
@@ -146,6 +146,30 @@ export function useDemo() {
   return context;
 }
 
+function normalizeDemoState(state: DemoState): DemoState {
+  const fallbackStudent = initialDemoState.students[0];
+  return {
+    ...state,
+    students: state.students.map((student) =>
+      student.name === "Maya Chen" || student.id === "maya"
+        ? {
+            ...student,
+            currentGrade: fallbackStudent.currentGrade,
+            currentYear: fallbackStudent.currentYear,
+            classes: fallbackStudent.classes
+          }
+        : student
+    ),
+    rawNotes: state.rawNotes.filter((note) => note.grade <= 11),
+    observations: state.observations.filter((observation) => observation.grade <= 11),
+    growthMaps: initialDemoState.growthMaps,
+    subjectPerformance: initialDemoState.subjectPerformance,
+    curriculumCompetencies: state.curriculumCompetencies.filter((item) => item.grade <= 11),
+    personalitySnapshots: initialDemoState.personalitySnapshots,
+    pathways: state.pathways.filter((pathway) => pathway.grade <= 11)
+  };
+}
+
 function mapConvexData(data: any): DemoState | null {
   if (!data?.student) return null;
   const fallback = initialDemoState;
@@ -154,14 +178,14 @@ function mapConvexData(data: any): DemoState | null {
       {
         id: data.student._id,
         name: data.student.name,
-        currentGrade: data.student.currentGrade,
-        currentYear: data.student.currentYear,
-        personalityType: data.student.personalityType,
-        personalityBlurb: data.student.personalityBlurb,
+        currentGrade: fallback.students[0].currentGrade,
+        currentYear: fallback.students[0].currentYear,
+        personalityType: fallback.students[0].personalityType,
+        personalityBlurb: fallback.students[0].personalityBlurb,
         interests: data.student.interests,
         extracurriculars: data.student.extracurriculars,
         recentBooks: data.student.recentBooks,
-        classes: ["AP English", "Civics", "Precalculus", "Design Lab"],
+        classes: fallback.students[0].classes,
         backboardThreadId: data.student.backboardThreadId
       }
     ],
@@ -231,7 +255,7 @@ function mapConvexData(data: any): DemoState | null {
       firstDetected: pattern.firstDetected,
       lastValidated: pattern.lastValidated
     })),
-    growthMaps: data.growthMaps.map((map: any) => ({
+    growthMaps: fallback.growthMaps.length ? fallback.growthMaps : data.growthMaps.map((map: any) => ({
       studentId: map.studentId,
       grade: map.grade,
       writtenExpression: map.writtenExpression,
@@ -241,7 +265,7 @@ function mapConvexData(data: any): DemoState | null {
       visualReasoning: map.visualReasoning,
       spontaneousPart: map.spontaneousPart
     })),
-    subjectPerformance: data.subjectPerformance?.length ? data.subjectPerformance.map((item: any) => ({
+    subjectPerformance: fallback.subjectPerformance.length ? fallback.subjectPerformance : data.subjectPerformance?.length ? data.subjectPerformance.map((item: any) => ({
       id: item._id,
       studentId: item.studentId,
       grade: item.grade,
@@ -272,7 +296,7 @@ function mapConvexData(data: any): DemoState | null {
       source: item.source,
       completedAt: item.completedAt
     })) : fallback.personalitySnapshots,
-    pathways: data.pathways.map((pathway: any) => ({
+    pathways: fallback.pathways.length ? fallback.pathways : data.pathways.map((pathway: any) => ({
       id: pathway._id,
       studentId: pathway.studentId,
       grade: pathway.grade,

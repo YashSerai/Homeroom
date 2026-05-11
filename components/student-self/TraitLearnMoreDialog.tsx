@@ -15,10 +15,10 @@ export function TraitLearnMoreDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="sm">Learn about the traits</Button>
+        <Button variant="secondary" size="sm">Learn about the reflection</Button>
       </DialogTrigger>
       <DialogContent>
-        <h2 className="font-display text-3xl text-forest">Big Five/IPIP learner reflection</h2>
+        <h2 className="font-display text-3xl text-forest">Student-owned learner reflection</h2>
         <p className="mt-2 text-sm text-ink-soft">This is a student-owned reflection, not a permanent identity label.</p>
         <div className="mt-5 space-y-4">
           {traits.map(([title, body]) => (

@@ -31,10 +31,13 @@ export function clarifyObservation(transcript: string[], latest: string): string
     return "What moment in class made you notice that?";
   }
   if (!/(full-class|small-group|written|lab|presentation|1:1|group|discussion|writing|math)/i.test(latest)) {
-    return "Was this during full-class discussion, small-group work, written work, or something else?";
+    return "Was this during full-class discussion, small-group work, written work, or another setting?";
+  }
+  if (!/(sketch|draw|diagram|visual|model|built|build|made|wrote|prepared|plan|checklist)/i.test(transcript.join(" "))) {
+    return "Did Maya have a chance to sketch, write, build, prepare, or use a visual before sharing?";
   }
   if (!/(helped|worked|support|shared more|wrote|prepared)/i.test(latest)) {
-    return "Did you notice any setting where she shared more?";
+    return "Did you notice a setting where she shared more clearly?";
   }
   return "READY";
 }

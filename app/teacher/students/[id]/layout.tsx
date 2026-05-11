@@ -10,6 +10,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         <RouteTabs
           tabs={[
             { href: base, label: "Overview" },
+            { href: `${base}/handoff`, label: "Handoff" },
             { href: `${base}/growth-map`, label: "Growth Map" },
             { href: `${base}/notes`, label: "Notes" },
             { href: `${base}/pathways`, label: "Pathways" }

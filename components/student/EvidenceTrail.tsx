@@ -21,7 +21,7 @@ export function EvidenceTrail({ observationIds }: { observationIds: string[] }) 
       <DialogContent>
         <DialogTitle className="font-display text-3xl text-forest">Evidence trail</DialogTitle>
         <DialogDescription className="mt-2 text-ink-soft">
-          These are approved observations, not permanent labels. Each one carries source context.
+          These are approved observations with source context, confidence, and setting.
         </DialogDescription>
         <div className="mt-5 space-y-4">
           {observations.map((observation) => (
@@ -29,10 +29,10 @@ export function EvidenceTrail({ observationIds }: { observationIds: string[] }) 
               <div className="mb-2 flex flex-wrap items-center gap-2">
                 <Badge>{observation.confidence} confidence</Badge>
                 <Badge>{observation.signal}</Badge>
-                <span className="mono-label">{observation.grade} · {observation.subject} · {getTeacherName(observation.teacherId)}</span>
+                <span className="mono-label">Grade {observation.grade} · {observation.subject} · {getTeacherName(observation.teacherId)}</span>
               </div>
               <p className="font-medium text-ink">{observation.observedBehavior}</p>
-              <p className="mt-2 text-sm text-stone">Evidence: “{observation.evidenceQuote}”</p>
+              <p className="mt-2 text-sm text-stone">Evidence: &quot;{observation.evidenceQuote}&quot;</p>
             </div>
           ))}
         </div>

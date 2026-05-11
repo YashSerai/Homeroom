@@ -13,7 +13,7 @@ export function ObservationCard({ observation }: { observation: Observation }) {
       </div>
       <p className="mt-3 font-medium text-ink">{observation.observedBehavior}</p>
       <p className="mt-2 text-sm text-ink-soft">{observation.context}</p>
-      <p className="mt-3 text-sm text-stone">Evidence: “{observation.evidenceQuote}” · {getTeacherName(observation.teacherId)}</p>
+      <p className="mt-3 text-sm text-stone">Evidence: &quot;{observation.evidenceQuote}&quot; · {getTeacherName(observation.teacherId)}</p>
     </Card>
   );
 }

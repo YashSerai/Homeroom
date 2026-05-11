@@ -21,6 +21,7 @@ export function ObservationPreview({ preview }: { preview: ExtractionOutput }) {
       <h3 className="mt-4 font-display text-2xl text-forest">Structured observation draft</h3>
       <p className="mt-2 font-medium">{preview.observedBehavior}</p>
       <p className="mt-3 text-sm text-ink-soft">{preview.context}</p>
+      <p className="mt-3 text-sm text-stone">This draft describes an observed moment. It does not save a label as a learner trait.</p>
       <div className="mt-4 rounded-md bg-sage-light/45 p-3">
         <p className="mono-label">Evidence quote</p>
         <p className="mt-1 text-sm">“{preview.evidenceQuote}”</p>
